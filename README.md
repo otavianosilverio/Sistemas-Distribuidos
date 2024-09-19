@@ -1,6 +1,15 @@
 # Sistemas-Distribuidos
 UC Sistemas Distribuidos
 
+Aula 1 - Fundamentação de Sistemas Distribuidos 
+Leitura do Capítulo 1 do Livro Sistemas Distribuídos de Caique Silva Pereira.
+O arquivo em pdf disponível no Link https://drive.google.com/file/d/1f1IcdaN58wCuJ9VNgUcnXG3H_xj7JSmj/view?usp=sharing 
+Link do Slide da Aula de Hoje:  https://docs.google.com/presentation/d/1JM8gj4ppts05ybt-FLMRXa266zE4pWVv/edit?usp=sharing&ouid=111020856611809207124&rtpof=true&sd=true 
+ 
+Aula 2 - Aspectos elementares sobre a World Wide Web. Protocolo HTTP. Web Services Restful 
+https://docs.google.com/presentation/d/1VaJtBdakQbD56zXthBiO9RbQhrhwP0FO/edit?usp=sharing&ouid=111020856611809207124&rtpof=true&sd=true 
+
+
 # Exemplo de API REST - Node.js
 
 Aqui está um exemplo de uma API REST em Node.js usando o framework Express para realizar operações de `GET`, `POST`, `PUT` e `DELETE` em uma tabela de clientes no MySQL. A tabela possui as colunas `cd_codigo_cli` (int) e `nm_cliente_cli` (varchar(10)).
