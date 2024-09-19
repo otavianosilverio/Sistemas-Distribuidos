@@ -140,3 +140,126 @@ node app.js
 Agora sua API estará rodando na porta 3000.
 
 Você pode testar as requisições com o Postman ou cURL para verificar a funcionalidade da API.
+
+Claro! Abaixo estão as rotas da API REST que implementamos para manipulação da tabela de clientes no banco de dados MySQL.
+
+### Rotas da API
+
+1. **GET** `/clientes`  
+   Retorna todos os clientes cadastrados no banco de dados.
+   
+   **Exemplo de Requisição:**
+   ```bash
+   GET http://localhost:3000/clientes
+   ```
+
+   **Resposta:**
+   ```json
+   [
+     {
+       "cd_codigo_cli": 1,
+       "nm_cliente_cli": "Joao"
+     },
+     {
+       "cd_codigo_cli": 2,
+       "nm_cliente_cli": "Maria"
+     }
+   ]
+   ```
+
+2. **GET** `/clientes/:id`  
+   Retorna os dados de um cliente específico com base no `cd_codigo_cli`.
+
+   **Exemplo de Requisição:**
+   ```bash
+   GET http://localhost:3000/clientes/1
+   ```
+
+   **Resposta:**
+   ```json
+   {
+     "cd_codigo_cli": 1,
+     "nm_cliente_cli": "Joao"
+   }
+   ```
+
+   **Caso o cliente não seja encontrado:**
+   ```json
+   {
+     "message": "Cliente não encontrado"
+   }
+   ```
+
+3. **POST** `/clientes`  
+   Adiciona um novo cliente ao banco de dados.
+
+   **Exemplo de Requisição (corpo da requisição em JSON):**
+   ```bash
+   POST http://localhost:3000/clientes
+   Content-Type: application/json
+   ```
+   ```json
+   {
+     "nm_cliente_cli": "Pedro"
+   }
+   ```
+
+   **Resposta:**
+   ```json
+   {
+     "message": "Cliente adicionado",
+     "id": 3
+   }
+   ```
+
+4. **PUT** `/clientes/:id`  
+   Atualiza os dados de um cliente específico com base no `cd_codigo_cli`.
+
+   **Exemplo de Requisição (corpo da requisição em JSON):**
+   ```bash
+   PUT http://localhost:3000/clientes/1
+   Content-Type: application/json
+   ```
+   ```json
+   {
+     "nm_cliente_cli": "Joao Silva"
+   }
+   ```
+
+   **Resposta:**
+   ```json
+   {
+     "message": "Cliente atualizado"
+   }
+   ```
+
+   **Caso o cliente não seja encontrado:**
+   ```json
+   {
+     "message": "Cliente não encontrado"
+   }
+   ```
+
+5. **DELETE** `/clientes/:id`  
+   Remove um cliente específico com base no `cd_codigo_cli`.
+
+   **Exemplo de Requisição:**
+   ```bash
+   DELETE http://localhost:3000/clientes/1
+   ```
+
+   **Resposta:**
+   ```json
+   {
+     "message": "Cliente removido"
+   }
+   ```
+
+   **Caso o cliente não seja encontrado:**
+   ```json
+   {
+     "message": "Cliente não encontrado"
+   }
+   ```
+
+Essas rotas cobrem todas as operações CRUD (Create, Read, Update, Delete) para a tabela de clientes.
