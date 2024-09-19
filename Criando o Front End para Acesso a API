@@ -1,0 +1,155 @@
+Aqui está um exemplo de como você pode criar um front-end básico usando React para interagir com a API de manutenção da tabela de clientes que criamos em Node.js.
+
+Passo 1: Configuração do Projeto React
+No terminal, crie um novo projeto React:
+
+bash
+Copiar código
+npx create-react-app cliente-app
+cd cliente-app
+npm start
+Passo 2: Instalação do Axios
+Usaremos o axios para fazer as chamadas HTTP à API. Para instalar o axios, execute o seguinte comando no terminal:
+
+bash
+Copiar código
+npm install axios
+Passo 3: Implementação do Front-end
+Aqui está o código para o front-end básico que faz integração com a API.
+
+No arquivo src/App.js, substitua o conteúdo com o seguinte:
+
+javascript
+Copiar código
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const apiURL = 'http://localhost:3000/clientes';
+
+function App() {
+  const [clientes, setClientes] = useState([]);
+  const [novoCliente, setNovoCliente] = useState('');
+  const [editando, setEditando] = useState(null);
+  const [nomeEditado, setNomeEditado] = useState('');
+
+  // Função para carregar os clientes da API
+  const carregarClientes = async () => {
+    try {
+      const response = await axios.get(apiURL);
+      setClientes(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar clientes:', error);
+    }
+  };
+
+  // Carregar os clientes quando o componente for montado
+  useEffect(() => {
+    carregarClientes();
+  }, []);
+
+  // Adicionar um novo cliente
+  const adicionarCliente = async () => {
+    if (novoCliente.trim()) {
+      try {
+        await axios.post(apiURL, { nm_cliente_cli: novoCliente });
+        setNovoCliente('');
+        carregarClientes(); // Atualizar a lista de clientes
+      } catch (error) {
+        console.error('Erro ao adicionar cliente:', error);
+      }
+    }
+  };
+
+  // Atualizar um cliente
+  const atualizarCliente = async (id) => {
+    if (nomeEditado.trim()) {
+      try {
+        await axios.put(`${apiURL}/${id}`, { nm_cliente_cli: nomeEditado });
+        setEditando(null);
+        setNomeEditado('');
+        carregarClientes();
+      } catch (error) {
+        console.error('Erro ao atualizar cliente:', error);
+      }
+    }
+  };
+
+  // Excluir um cliente
+  const excluirCliente = async (id) => {
+    try {
+      await axios.delete(`${apiURL}/${id}`);
+      carregarClientes(); // Atualizar a lista de clientes
+    } catch (error) {
+      console.error('Erro ao excluir cliente:', error);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>Gerenciamento de Clientes</h1>
+
+      {/* Formulário para adicionar cliente */}
+      <div>
+        <input
+          type="text"
+          placeholder="Nome do cliente"
+          value={novoCliente}
+          onChange={(e) => setNovoCliente(e.target.value)}
+        />
+        <button onClick={adicionarCliente}>Adicionar Cliente</button>
+      </div>
+
+      {/* Lista de clientes */}
+      <h2>Clientes:</h2>
+      <ul>
+        {clientes.map((cliente) => (
+          <li key={cliente.cd_codigo_cli}>
+            {editando === cliente.cd_codigo_cli ? (
+              <>
+                <input
+                  type="text"
+                  value={nomeEditado}
+                  onChange={(e) => setNomeEditado(e.target.value)}
+                />
+                <button onClick={() => atualizarCliente(cliente.cd_codigo_cli)}>Salvar</button>
+                <button onClick={() => setEditando(null)}>Cancelar</button>
+              </>
+            ) : (
+              <>
+                {cliente.nm_cliente_cli}
+                <button onClick={() => {
+                  setEditando(cliente.cd_codigo_cli);
+                  setNomeEditado(cliente.nm_cliente_cli);
+                }}>Editar</button>
+                <button onClick={() => excluirCliente(cliente.cd_codigo_cli)}>Excluir</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+Explicação do código:
+Carregar clientes: A função carregarClientes usa o axios.get() para buscar todos os clientes da API e armazena a resposta no estado clientes.
+Adicionar cliente: A função adicionarCliente usa o axios.post() para enviar o nome de um novo cliente para a API.
+Atualizar cliente: A função atualizarCliente permite editar o nome de um cliente existente e envia a alteração para a API via axios.put().
+Excluir cliente: A função excluirCliente usa o axios.delete() para remover um cliente da lista com base no cd_codigo_cli.
+Editar cliente: Ao clicar no botão "Editar", o campo de texto correspondente ao nome do cliente se torna editável.
+Passo 4: Rodar o Front-end
+No terminal, dentro da pasta do projeto React, execute:
+
+bash
+Copiar código
+npm start
+Integração com a API:
+O front-end agora deve estar disponível no http://localhost:3000.
+A API REST do backend também deve estar rodando em http://localhost:3000, então pode haver conflitos de portas. Nesse caso, você pode alterar a porta do React ou do Node.js.
+Para mudar a porta do React, abra o arquivo package.json e adicione:
+
+json
+Copiar código
+"start": "PORT=3001 react-scripts start",
+Agora, o front-end será servido na porta 3001, enquanto o back-end continuará na porta 3000.
